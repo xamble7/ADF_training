@@ -19,19 +19,24 @@
 					"name": "OrderData"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "PurchaseTable",
+						"type": "DatasetReference"
+					},
+					"name": "CUSTODR"
+				}
+			],
 			"transformations": [
 				{
 					"name": "join1"
 				},
 				{
-					"name": "aggregate1"
+					"name": "AGcountry"
 				},
 				{
-					"name": "aggregate2"
-				},
-				{
-					"name": "aggregate3"
+					"name": "AGtimestamp"
 				}
 			],
 			"scriptLines": [
@@ -64,12 +69,11 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> OrderData",
-				"aggregate2, aggregate3 join(CustomerData@CustomerID == OrderData@CustomerID,",
+				"AGcountry, AGtimestamp join(AGcountry@CustomerID == AGtimestamp@CustomerID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1 aggregate() ~> aggregate1",
 				"CustomerData aggregate(groupBy(CustomerID,",
 				"          FirstName,",
 				"          LastName,",
@@ -78,15 +82,25 @@
 				"          Address,",
 				"          City,",
 				"          State,",
-				"          ZipCode,",
-				"          Country)) ~> aggregate2",
+				"          ZipCode),",
+				"     Country = max(Country)) ~> AGcountry",
 				"OrderData aggregate(groupBy(OrderID,",
 				"          ProductID,",
 				"          ProductName,",
 				"          Quantity,",
 				"          Price,",
 				"          CustomerID),",
-				"     OrderTimestamp = max(OrderTimestamp)) ~> aggregate3"
+				"     OrderTimestamp = max(OrderTimestamp)) ~> AGtimestamp",
+				"join1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> CUSTODR"
 			]
 		}
 	}

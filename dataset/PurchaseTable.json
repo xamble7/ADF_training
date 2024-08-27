@@ -1,0 +1,16 @@
+{
+	"name": "PurchaseTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Sqldb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "raw",
+			"table": "purchase"
+		}
+	}
+}

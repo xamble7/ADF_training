@@ -3,7 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "CombiningCustomer",
+				"name": "CD_CsvToConsolidated",
+				"description": "Merging the Csv files",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -57,17 +58,18 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "customerDetailsCombined",
+						"referenceName": "customerCombine",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "CombiningOrders",
+				"name": "CD_ExcelToConsolidated",
+				"description": "Merging the Excel files",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "CombiningCustomer",
+						"activity": "CD_CsvToConsolidated",
 						"dependencyConditions": [
 							"Completed"
 						]
@@ -100,7 +102,7 @@
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
 							"quoteAllText": true,
-							"fileExtension": ".xlsx"
+							"fileExtension": ".csv"
 						}
 					},
 					"enableStaging": false,
@@ -121,7 +123,130 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "orderDetailsCombined",
+						"referenceName": "orderCombine",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "CSV_DB",
+				"description": "Consolidated Csv files To the Database",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "CD_ExcelToConsolidated",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "customerCombine",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "customerTable",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy data1_copy1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "CSV_DB",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "customerCombine",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "customerTable",
 						"type": "DatasetReference"
 					}
 				]

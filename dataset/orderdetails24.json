@@ -1,0 +1,21 @@
+{
+	"name": "orderdetails24",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_storage_blobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "240824_orderdetails.xlsx",
+				"container": "input"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}

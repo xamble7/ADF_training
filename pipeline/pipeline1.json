@@ -191,7 +191,7 @@
 				]
 			},
 			{
-				"name": "Copy data1_copy1",
+				"name": "EXCEL_DB",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -240,13 +240,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "customerCombine",
+						"referenceName": "orderCombine",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "customerTable",
+						"referenceName": "orderTable",
 						"type": "DatasetReference"
 					}
 				]

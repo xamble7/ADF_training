@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "PL_CopyDataFiles_Sql",
 	"properties": {
 		"activities": [
 			{
@@ -52,13 +52,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "customerdetails24",
+						"referenceName": "DS_customerdetails24",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "customerCombine",
+						"referenceName": "DS_customerCombine",
 						"type": "DatasetReference"
 					}
 				]
@@ -117,13 +117,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "orderdetails24",
+						"referenceName": "DS_orderdetails24",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "orderCombine",
+						"referenceName": "DS_orderCombine",
 						"type": "DatasetReference"
 					}
 				]
@@ -179,13 +179,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "customerCombine",
+						"referenceName": "DS_customerCombine",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "customerTable",
+						"referenceName": "DS_customerTable",
 						"type": "DatasetReference"
 					}
 				]
@@ -240,13 +240,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "orderCombine",
+						"referenceName": "DS_orderCombine",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "orderTable",
+						"referenceName": "DS_orderTable",
 						"type": "DatasetReference"
 					}
 				]

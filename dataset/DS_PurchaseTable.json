@@ -1,5 +1,5 @@
 {
-	"name": "PurchaseTable",
+	"name": "DS_PurchaseTable",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Sqldb",

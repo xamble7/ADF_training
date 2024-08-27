@@ -1,5 +1,5 @@
 {
-	"name": "orderdetails24",
+	"name": "DS_orderdetails24",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_storage_blobstorage",

@@ -1,5 +1,5 @@
 {
-	"name": "customerCombine",
+	"name": "DS_customerCombine",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_storage_blobstorage",

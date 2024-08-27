@@ -1,5 +1,5 @@
 {
-	"name": "orderTable",
+	"name": "DS_orderTable",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Sqldb",

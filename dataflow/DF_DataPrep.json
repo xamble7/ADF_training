@@ -1,19 +1,19 @@
 {
-	"name": "dataflow1",
+	"name": "DF_DataPrep",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "customerTable",
+						"referenceName": "DS_customerTable",
 						"type": "DatasetReference"
 					},
 					"name": "CustomerData"
 				},
 				{
 					"dataset": {
-						"referenceName": "orderTable",
+						"referenceName": "DS_orderTable",
 						"type": "DatasetReference"
 					},
 					"name": "OrderData"
@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "PurchaseTable",
+						"referenceName": "DS_PurchaseTable",
 						"type": "DatasetReference"
 					},
 					"name": "CUSTODR"
@@ -30,13 +30,13 @@
 			],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "JoinOrderAndCustomer"
 				},
 				{
-					"name": "AGcountry"
+					"name": "AGOnCustomerData"
 				},
 				{
-					"name": "AGtimestamp"
+					"name": "AGOnOrderData"
 				}
 			],
 			"scriptLines": [
@@ -69,11 +69,11 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> OrderData",
-				"AGcountry, AGtimestamp join(AGcountry@CustomerID == AGtimestamp@CustomerID,",
+				"AGOnCustomerData, AGOnOrderData join(AGOnCustomerData@CustomerID == AGOnOrderData@CustomerID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
+				"     broadcast: 'auto')~> JoinOrderAndCustomer",
 				"CustomerData aggregate(groupBy(CustomerID,",
 				"          FirstName,",
 				"          LastName,",
@@ -83,15 +83,15 @@
 				"          City,",
 				"          State,",
 				"          ZipCode),",
-				"     Country = max(Country)) ~> AGcountry",
+				"     Country = max(Country)) ~> AGOnCustomerData",
 				"OrderData aggregate(groupBy(OrderID,",
 				"          ProductID,",
 				"          ProductName,",
 				"          Quantity,",
 				"          Price,",
 				"          CustomerID),",
-				"     OrderTimestamp = max(OrderTimestamp)) ~> AGtimestamp",
-				"join1 sink(allowSchemaDrift: true,",
+				"     OrderTimestamp = max(OrderTimestamp)) ~> AGOnOrderData",
+				"JoinOrderAndCustomer sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",

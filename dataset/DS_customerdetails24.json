@@ -1,5 +1,5 @@
 {
-	"name": "customerdetails24",
+	"name": "DS_customerdetails24",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_storage_blobstorage",

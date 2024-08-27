@@ -1,5 +1,5 @@
 {
-	"name": "customerTable",
+	"name": "DS_customerTable",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Sqldb",
